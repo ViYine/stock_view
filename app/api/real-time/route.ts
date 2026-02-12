@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const page = searchParams.get('page') || '0'
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       c: 'NewStockRanking',
       PhoneOSNew: '1',
       DeviceID: '20ad85ca-becb-3bed-b3d4-30032a0f5923',
-      VerSion: '5.8.0.2',
+      VerSion: '5.22.0.2',
       index: index.toString(),
       apiv: 'w29',
       Type: '1',
@@ -27,15 +27,19 @@ export async function GET(request: NextRequest) {
       FilterGem: '0',
     }
     
+    // 将参数转换为 URL 编码的 form 数据
+    const formData = new URLSearchParams()
     Object.entries(params).forEach(([key, value]) => {
-      apiUrl.searchParams.append(key, value)
+      formData.append(key, value)
     })
     
     const response = await fetch(apiUrl.toString(), {
-      method: 'GET',
+      method: 'POST',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 14; V2178A Build/UP1A.231005.007)",
       },
+      body: formData.toString(),
     })
     
     if (!response.ok) {
